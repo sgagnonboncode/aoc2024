@@ -1,0 +1,11 @@
+#filter os files
+/**/.DS_STORE
+
+#python / pytest caches
+.pytest_cache
+/**/__pycache__
+
+#keep gitkeep
+!/**/.gitkeep
+
+scratch.txt
