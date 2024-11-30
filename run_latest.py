@@ -81,7 +81,7 @@ def display_splash_title():
         + "O"
         + Fore.GREEN
         + " \\"
-        + Fore.WHITE
+        + Fore.WHITEO
         + "i"
         + Fore.GREEN
         + "     "
