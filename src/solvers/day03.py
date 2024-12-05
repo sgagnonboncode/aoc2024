@@ -18,6 +18,7 @@ def solve_part1() -> int:
 
     return total
 
+
 def solve_part2() -> int:
     lines = read_lines("input/day03/part1.txt")
     # lines = read_lines("input/day02/example.txt")
