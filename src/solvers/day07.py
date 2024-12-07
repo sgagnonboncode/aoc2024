@@ -3,6 +3,7 @@ from typing import Tuple
 from src.common.file_utils import read_lines
 import re
 from pydantic import BaseModel
+import concurrent.futures
 
 
 class Equation:
@@ -93,18 +94,24 @@ def solve_part1() -> int:
     return total
 
 
+def solve_line(line: str) -> int:
+    if len(line) == 0:
+        return 0
+
+    equation = Equation(line)
+    if equation.try_solve_part_2():
+        return equation.answer
+
+    return 0
+
+
 def solve_part2() -> int:
     # lines = read_lines("input/day07/example.txt")
     lines = read_lines("input/day07/part1.txt")
 
     total = 0
-
-    for line in lines:
-        if len(line) == 0:
-            continue
-
-        equation = Equation(line)
-        if equation.try_solve_part_2():
-            total += equation.answer
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for line_total in zip(lines, executor.map(solve_line, lines)):
+            total += line_total[1]
 
     return total
