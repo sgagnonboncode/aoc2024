@@ -11,9 +11,11 @@ import concurrent.futures
 def parse_input(input: list[str]) -> list[list[chr]]:
     return [list(line[:-1]) for line in input]
 
+
 class NodePosition(BaseModel):
     x: int
     y: int
+
 
 class Region(BaseModel):
     node_type: str
