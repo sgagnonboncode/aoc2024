@@ -15,6 +15,7 @@ MAPSIZE_Y = 103
 # MAPSIZE_X = 11
 # MAPSIZE_Y = 7
 
+
 class RobotState(BaseModel):
     px: int = 0
     py: int = 0
@@ -39,17 +40,19 @@ class RobotState(BaseModel):
 
 
 def parse_input(input: list[str]) -> list[RobotState]:
-    
-        robots: list[RobotState] = []
-    
-        for i in range(len(input)):
-            numbers = [int(n) for n in re.findall(r"-?\d+", input[i])]
 
-            if len(numbers) == 4:
-                robot = RobotState(px=numbers[0], py=numbers[1], vx=numbers[2], vy=numbers[3])
-                robots.append(robot)
-          
-        return robots
+    robots: list[RobotState] = []
+
+    for i in range(len(input)):
+        numbers = [int(n) for n in re.findall(r"-?\d+", input[i])]
+
+        if len(numbers) == 4:
+            robot = RobotState(
+                px=numbers[0], py=numbers[1], vx=numbers[2], vy=numbers[3]
+            )
+            robots.append(robot)
+
+    return robots
 
 
 def calculate_safety_factor(robots: list[RobotState]) -> int:
@@ -69,7 +72,7 @@ def calculate_safety_factor(robots: list[RobotState]) -> int:
         elif robot.px > MAPSIZE_X // 2 and robot.py > MAPSIZE_Y // 2:
             br += 1
 
-    print("TL:", tl, "TR:", tr, "BL:", bl, "BR:", br , "TOTAL:", tl * tr * bl * br)
+    print("TL:", tl, "TR:", tr, "BL:", bl, "BR:", br, "TOTAL:", tl * tr * bl * br)
 
     return tl * tr * bl * br
 
@@ -81,10 +84,10 @@ def solve_part1() -> int:
     input = read_lines("input/day14/part1.txt")
     robots = parse_input(input)
 
-    for i in range(1,101):
+    for i in range(1, 101):
         for robot in robots:
             robot.animate()
-    
+
     return calculate_safety_factor(robots)
 
 
@@ -103,15 +106,15 @@ def print_map(robots: list[RobotState]):
         print()
     print()
 
+
 def test_easter_egg(robots: list[RobotState]) -> bool:
-    
+
     unique_positions = set()
     for robot in robots:
         unique_positions.add((robot.px, robot.py))
 
     return len(unique_positions) == len(robots)
-    
-    
+
 
 def solve_part2() -> int:
     # input = read_lines("input/day14/example.txt")
@@ -119,10 +122,9 @@ def solve_part2() -> int:
     input = read_lines("input/day14/part1.txt")
     robots = parse_input(input)
 
-    
-    i=0
+    i = 0
     while not test_easter_egg(robots):
-        i+=1
+        i += 1
 
         if i % 1000 == 0:
             print(f"... {i} ...")
@@ -130,17 +132,17 @@ def solve_part2() -> int:
         for robot in robots:
             robot.animate()
 
-        robot_map = [[0 for x in repeat(None, MAPSIZE_X)] for y in repeat(None, MAPSIZE_Y)]
+        robot_map = [
+            [0 for x in repeat(None, MAPSIZE_X)] for y in repeat(None, MAPSIZE_Y)
+        ]
 
         for robot in robots:
             robot_map[robot.py][robot.px] += 1
 
     print(f"AFTER {i} STEPS")
     print_map(robots)
-    
+
     return i
-
-
 
 
 # Picture of the easter egg
